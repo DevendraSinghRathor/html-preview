@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Encoder / Decoder</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    margin: 0;
+  }
+
+  .container {
+    background: #fff;
+    width: 100%;
+    max-width: 700px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    color: #222;
+    margin-bottom: 24px;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: monospace;
+    margin-bottom: 14px;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+  }
+
+  #output {
+    background: #f0f2f5;
+    color: #222;
+    cursor: not-allowed;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+
+  #encodeBtn {
+    background: #4a90e2;
+    color: #fff;
+  }
+  #encodeBtn:hover { background: #3a7bc8; }
+
+  #decodeBtn {
+    background: #50b083;
+    color: #fff;
+  }
+  #decodeBtn:hover { background: #3f9670; }
+
+  #copyBtn {
+    background: #eee;
+    color: #333;
+    flex: 1;
+  }
+  #copyBtn:hover { background: #ddd; }
+
+  .status {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    min-height: 18px;
+  }
+
+  .error {
+    color: #d9534f;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>URL Encoder / Decoder</h1>
+
+  <label for="input">Enter URL / Text</label>
+  <textarea id="input" placeholder="Paste your URL here..."></textarea>
+
+  <div class="btn-row">
+    <button id="encodeBtn">Encode</button>
+    <button id="decodeBtn">Decode</button>
+  </div>
+
+  <label for="output">Result</label>
+  <textarea id="output" readonly placeholder="Result will appear here..."></textarea>
+
+  <div class="btn-row">
+    <button id="copyBtn">Copy Result</button>
+  </div>
+
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+  const input = document.getElementById('input');
+  const output = document.getElementById('output');
+  const status = document.getElementById('status');
+
+  document.getElementById('encodeBtn').addEventListener('click', () => {
+    try {
+      output.value = encodeURIComponent(input.value);
+      setStatus('Encoded successfully.', false);
+    } catch (e) {
+      setStatus('Error while encoding.', true);
+    }
+  });
+
+  document.getElementById('decodeBtn').addEventListener('click', () => {
+    try {
+      output.value = decodeURIComponent(input.value);
+      setStatus('Decoded successfully.', false);
+    } catch (e) {
+      setStatus('Error: invalid encoded string.', true);
+    }
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    if (!output.value) {
+      setStatus('Nothing to copy.', true);
+      return;
+    }
+    navigator.clipboard.writeText(output.value)
+      .then(() => setStatus('Copied to clipboard!', false))
+      .catch(() => setStatus('Failed to copy.', true));
+  });
+
+  function setStatus(msg, isError) {
+    status.textContent = msg;
+    status.className = 'status' + (isError ? ' error' : '');
+  }
+</script>
+
+</body>
+</html>
