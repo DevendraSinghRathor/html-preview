@@ -86,11 +86,6 @@
     transform: scale(0.97);
   }
 
-  #encodeBtn {
-    background: #4a90e2;
-    color: #fff;
-  }
-  #encodeBtn:hover { background: #3a7bc8; }
 
   #decodeBtn {
     background: #50b083;
@@ -126,6 +121,7 @@
   <textarea id="input" placeholder="Paste your URL here..."></textarea>
 
   <div class="btn-row">
+    <!-- <button id="encodeBtn">Encode</button> -->
     <button id="decodeBtn">Decode</button>
   </div>
 
@@ -144,14 +140,7 @@
   const output = document.getElementById('output');
   const status = document.getElementById('status');
 
-  document.getElementById('encodeBtn').addEventListener('click', () => {
-    try {
-      output.value = encodeURIComponent(input.value);
-      setStatus('Encoded successfully.', false);
-    } catch (e) {
-      setStatus('Error while encoding.', true);
-    }
-  });
+  
 
   document.getElementById('decodeBtn').addEventListener('click', () => {
     try {
